@@ -10,7 +10,7 @@ module Notion
 
     # NOTE: https://developers.notion.com/reference/post-search
     def self.search(query) # TODO: タイトル以外で検索できない？
-      url = BASE_URL + SEARCH_PATH
+      url = get_api_url(SEARCH_PATH)
 
       response =
         HTTP[
@@ -31,10 +31,12 @@ module Notion
 
     # NOTE: https://developers.notion.com/reference/retrieve-a-database
     def self.get(id)
+      url = get_api_url(DATABASE_API_PATH, id)
+
       HTTP::MimeType::JSON.decode(HTTP[
         'Authorization': "Bearer #{ENV['NOTION_KEY']}",
         'Notion-Version': ENV['NOTION_VERSION']
-      ].get(BASE_URL + DATABASE_API_PATH +  '/' + id))
+      ].get(url))
     end
   end
 end
