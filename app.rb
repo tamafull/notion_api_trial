@@ -8,7 +8,6 @@ module Notion
 
   class Database
     DATABASE_API_PATH = 'v1/databases'
-    DATABASE_URL = BASE_URL + DATABASE_API_PATH +  '/' + ENV['NOTION_DATABASE_ID']
 
     # NOTE: https://developers.notion.com/reference/post-search
     def self.search(query) # TODO: タイトル以外で検索できない？
@@ -32,7 +31,9 @@ module Notion
     end
 
     # NOTE: https://developers.notion.com/reference/retrieve-a-database
-    def self.get
+    def self.get(id)
+      DATABASE_URL = BASE_URL + DATABASE_API_PATH +  '/' + id
+
       HTTP::MimeType::JSON.decode(HTTP[
         'Authorization': "Bearer #{ENV['NOTION_KEY']}",
         'Notion-Version': ENV['NOTION_VERSION']
@@ -41,7 +42,10 @@ module Notion
   end
 end
 
-response = Notion::Database.get if ARGV[0] == 'db'
+if ARGV[0] == 'db' && !ARGV[1].nil?
+  response = Notion::Database.get(ARGV[1])
+end
+
 if ARGV[0] == 'search' && !ARGV[1].nil?
   response = Notion::Database.search(ARGV[1])
 end
