@@ -18,7 +18,7 @@ module Notion
         HTTP[
           'Authorization': "Bearer #{ENV['NOTION_KEY']}",
           'Content-Type': 'application/json',
-          'Notion-Version': '2021-08-16'
+          'Notion-Version': ENV['NOTION_VERSION']
         ].post(url, json: {
           query: query,
           sort:{
@@ -35,7 +35,7 @@ module Notion
     def self.get
       HTTP::MimeType::JSON.decode(HTTP[
         'Authorization': "Bearer #{ENV['NOTION_KEY']}",
-        'Notion-Version': '2021-08-16'
+        'Notion-Version': ENV['NOTION_VERSION']
       ].get(DATABASE_URL))
     end
   end
