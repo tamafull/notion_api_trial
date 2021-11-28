@@ -4,13 +4,6 @@ module Notion
   class Database < Notion::Base
     DATABASE_API_PATH = 'v1/databases'
 
-    def self.search(query) # TODO: タイトル以外で検索できない？
-      instance = new
-      instance.search(query)
-
-      instance
-    end
-
     def search(query, object='database')
       super
     end

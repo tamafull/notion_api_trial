@@ -15,6 +15,13 @@ module Notion
       @metadata = metadata
     end
 
+    def self.search(query)
+      instance = new
+      instance.search(query)
+
+      instance
+    end
+
     def search(query, object)
       url = get_api_url(SEARCH_PATH)
 
