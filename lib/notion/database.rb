@@ -19,6 +19,9 @@ module Notion
           'Notion-Version': ENV['NOTION_VERSION']
         ].post(url, json: {
           query: query,
+          # filter:{
+          #   value: 'database'
+          # }, # TODO: 使い方がわからず取れない。できればselectせずに取得する段階でfilterをかけたい。
           sort:{
             direction: 'ascending',
             timestamp: 'last_edited_time'
