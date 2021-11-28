@@ -7,12 +7,14 @@ module Notion
     BASE_URL = 'https://api.notion.com/'
     SEARCH_PATH = 'v1/search'
 
-    class << self
-      private
+    private
 
-      def get_api_url(*path)
-        BASE_URL + path.join('/')
-      end
+    def get_api_url(*path)
+      BASE_URL + path.join('/')
+    end
+
+    def convert_for_url(response_id)
+      response_id.delete('-')
     end
   end
 end

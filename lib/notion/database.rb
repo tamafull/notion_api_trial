@@ -4,12 +4,22 @@ module Notion
   class Database < Notion::Base
     DATABASE_API_PATH = 'v1/databases'
 
-    def initialize()
-      @id = nil
+    attr_reader :id
+    attr_reader :metadata
+
+    def initialize(id=nil, metadata={})
+      @id = id
+      @metadata = metadata
     end
 
-    # NOTE: https://developers.notion.com/reference/post-search
     def self.search(query) # TODO: タイトル以外で検索できない？
+      instance = new
+      instance.search(query)
+
+      instance
+    end
+
+    def search(query)
       url = get_api_url(SEARCH_PATH)
 
       response =
@@ -29,7 +39,8 @@ module Notion
         })
       response_json = HTTP::MimeType::JSON.decode(response)
 
-      response_json['results'].select {|result| result['object'] == 'database'} # TODO: page用も必要なのでどこかに切り出す
+      @metadata = response_json['results'].find {|result| result['object'] == 'database'} # TODO: page用も必要なのでどこかに切り出す
+      @id = convert_for_url(@metadata['id'])
     end
 
     # NOTE: https://developers.notion.com/reference/retrieve-a-database
