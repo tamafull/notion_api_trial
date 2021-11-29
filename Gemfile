@@ -5,3 +5,4 @@ ruby '3.0.2'
 
 gem 'http'
 gem 'dotenv'
+gem 'rspec'
