@@ -30,9 +30,9 @@ module Notion
           }
         })
       response_json = HTTP::MimeType::JSON.decode(response)
+      metadata = response_json['results'].find {|result| result['object'] == 'page'}
 
-      # TODO: Pageの処理
-      new(response_json, response_json)
+      new(metadata['id'], metadata)
     end
   end
 end
