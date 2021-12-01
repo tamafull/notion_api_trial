@@ -13,4 +13,8 @@ if ARGV[0] == 'pagesearch' && !ARGV[1].nil?
   response = Notion::Page.search(ARGV[1])
 end
 
+if ARGV[0] == 'pageget' && !ARGV[1].nil?
+  response = Notion::Page.get(ARGV[1])
+end
+
 p response

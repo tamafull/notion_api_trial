@@ -2,6 +2,7 @@ require 'notion/base'
 
 module Notion
   class Page < Notion::Base
+    PAGE_API_PATH = 'v1/pages'
     SEARCH_API_PATH = 'v1/search'
 
     attr_reader :id
@@ -33,6 +34,19 @@ module Notion
       metadata = response_json['results'].find {|result| result['object'] == 'page'}
 
       new(metadata['id'], metadata)
+    end
+
+    def self.get(id)
+      url = get_api_url(PAGE_API_PATH, id)
+
+      response = HTTP[
+        'Authorization': "Bearer #{ENV['NOTION_KEY']}",
+        'Notion-Version': ENV['NOTION_VERSION']
+      ].get(url)
+
+      response_json = HTTP::MimeType::JSON.decode(response)
+
+      new(response_json['id'], response_json)
     end
   end
 end
